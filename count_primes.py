@@ -13,16 +13,19 @@ def count_primes(n):
     :param n:
     :return:
     """
-    number_array = list(range(2, n))
-    counts = 0
-    while len(number_array):
-        divisor = min(number_array)
-        if divisor > max(number_array)**0.5:
-            break
-        if min(number_array) == divisor:
-            counts += 1
-        number_array = [p for p in number_array if p % divisor]
-    return counts + len(number_array)
+    # Sieve of Eratosthenes
+
+    # We are only interested in numbers LESS than the input number
+    # exit early for numbers LESS than 2; (two is prime)
+    if n < 2:
+        return 0
+    number_array = [1] * n
+    number_array[0] = 0
+    number_array[1] = 0
+    for i in range(2, int(n**0.5)+1):
+        if number_array[i] != 0:
+            number_array[i*i:n:i] = [0] * ((n-1-i*i)//i + 1)
+    return sum(number_array)
 
 
 if __name__ == '__main__':
